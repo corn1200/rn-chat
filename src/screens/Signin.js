@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { Button } from "../components";
+import { Button, Image } from "../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useContext } from "react";
 import { ThemeContext } from "styled-components/native";
@@ -21,6 +21,9 @@ const StyledText = styled.Text`
     color: #111;
 `;
 
+// 파이어베이스에 저장된 이미지 주소
+const LOGO = 'https://firebasestorage.googleapis.com/v0/b/rn-chat-1eec3.appspot.com/o/icon_new.png?alt=media';
+
 // 로그인 화면 컴포넌트
 const Signin = ({ navigation }) => {
     // 노치 디자인 대응을 위한 함수
@@ -29,6 +32,7 @@ const Signin = ({ navigation }) => {
     const theme = useContext(ThemeContext);
     return (
         <Container insets={insets}>
+            <Image url={LOGO} />
             <StyledText>Signin</StyledText>
             {/* 클릭 시 네비게이션에 Signup 으로 등록된 화면으로 이동 */}
             <Button
