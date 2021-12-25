@@ -10,5 +10,6 @@ export const theme = {
 
     // Button
     btnBackground: Colors.main,
-    btnTitle: Colors.white
+    btnTitle: Colors.white,
+    btnTextLink: Colors.main
 };
