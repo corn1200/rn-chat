@@ -1,7 +1,8 @@
 const Colors = {
     white: '#fff',
     black: '#111',
-    main: '#778BDD'
+    main: '#778BDD',
+    grey: '#D5D5D5'
 };
 
 export const theme = {
@@ -11,5 +12,8 @@ export const theme = {
     // Button
     btnBackground: Colors.main,
     btnTitle: Colors.white,
-    btnTextLink: Colors.main
+    btnTextLink: Colors.main,
+
+    // Image
+    imgBackground: Colors.grey
 };
