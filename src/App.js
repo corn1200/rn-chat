@@ -5,7 +5,7 @@ import { ThemeProvider } from "styled-components";
 import Navigation from "./navigations";
 
 const App = () => {
-  console.log("all rights")
+  console.log("all rights");
   return (
     <ThemeProvider theme={theme}>
       <StatusBar backgroundColor={theme.backgroundColor} barStyle="dark-content" />

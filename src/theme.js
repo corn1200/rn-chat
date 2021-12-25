@@ -5,6 +5,10 @@ const Colors = {
 };
 
 export const theme = {
-    background: Colors.main,
-    text: Colors.black
+    background: Colors.white,
+    text: Colors.black,
+
+    // Button
+    btnBackground: Colors.main,
+    btnTitle: Colors.white
 };
