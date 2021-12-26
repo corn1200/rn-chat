@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import styled from "styled-components/native";
 import { Button } from "../components";
+import { UserContext } from "../contexts";
 
 // 프로필 화면 전체를 감싸는 컴포넌트
 const Container = styled.View`
@@ -8,12 +10,16 @@ const Container = styled.View`
 `;
 
 // 프로필 컴포넌트를 생성한다
-// 로그아웃 버튼 클릭 시 로그인 페이지로 이동
 const Profile = ({ navigation, route }) => {
-    console.log(route.params);
+    // 회원 정보 컨텍스트를 제어하는 함수를 호출
+    const {setUser} = useContext(UserContext);
     return (
         <Container>
-            <Button title="signout" onPress={() => navigation.navigate('Signin')} />
+            {/* 로그아웃 클릭 시 회원 정보 컨텍스트 초기화 */}
+            <Button 
+                title="signout" 
+                onPress={() => setUser({})} 
+            />
         </Container>
     );
 };
