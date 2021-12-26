@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { signin } from "../firebase";
 import { Alert } from "react-native";
 import { validateEmail, removeWhitespace } from "../utils";
+import { UserContext, ProgressContext } from "../contexts";
 
 // 로그인 페이지를 감싸는 컴포넌트
 const Container = styled.View`
@@ -28,6 +29,11 @@ const Signin = ({ navigation }) => {
 
     // 테마를 바로 사용할 수 없기 때문에 context에서 불러옴
     const theme = useContext(ThemeContext);
+
+    // 회원 정보 컨텍스트 제어 함수 호출
+    // 로딩 정보 컨텍스트 제어 함수 호출
+    const { setUser } = useContext(UserContext);
+    const { spinner } = useContext(ProgressContext);
 
     // 입력을 저장하는 state
     const [email, setEmail] = useState('');
@@ -61,12 +67,17 @@ const Signin = ({ navigation }) => {
     // 로그인 시도를 하고 성공 시 프로필 화면으로 이동, 실패 시 오류 얼럿을 띄운다
     const _handleSigninBtnPress = async () => {
         try {
+            // 로딩 시작
+            spinner.start();
             const user = await signin({ email, password });
-            navigation.navigate('Profile', { user });
+            // 회원 정보 컨텍스트에 저장
+            setUser(user);
         } catch (e) {
             Alert.alert('Sign in Error', e.message);
+        } finally {
+            // 로딩 종료
+            spinner.stop();
         }
-        console.log('signin');
     }
     return (
         // 로그인 화면이 스크롤 가능하도록 만들고 인풋 포커스 시 스크롤 이동하게함
