@@ -12,6 +12,9 @@ const Container = styled.View`
     padding: 50px 20px;
 `;
 
+// props가 없을 시 기본적으로 이용하는 값 설정
+const DEFAULT_PHOTO = 'https://firebasestorage.googleapis.com/v0/b/rn-chat-1eec3.appspot.com/o/face.png?alt=media';
+
 // 로그인 화면 컴포넌트
 const Signup = () => {
     // 입력을 저장하는 state
@@ -19,6 +22,7 @@ const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [photo, setPhoto] = useState(DEFAULT_PHOTO);
     // 키보드에서 다음 버튼을 눌렀을 때 다음 입력으로 이동되게 함
     const refEmail = useRef(null);
     const refPassword = useRef(null);
@@ -33,7 +37,13 @@ const Signup = () => {
             extraScrollHeight={20}
         >
             <Container>
-                <Image />
+                {/* 사진 선택 컴포넌트를 출력하고 사진의 값을 state로 정한다
+                사진 선택 후 state를 변경하여 이미지를 업데이트한다 */}
+                <Image 
+                    showButton={true} 
+                    url={photo} 
+                    onChangePhoto={setPhoto}
+                />
                 <Input
                     label="Name"
                     placeholder="Name"
