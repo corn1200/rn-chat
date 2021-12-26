@@ -39,9 +39,9 @@ const Signup = () => {
             <Container>
                 {/* 사진 선택 컴포넌트를 출력하고 사진의 값을 state로 정한다
                 사진 선택 후 state를 변경하여 이미지를 업데이트한다 */}
-                <Image 
-                    showButton={true} 
-                    url={photo} 
+                <Image
+                    showButton={true}
+                    url={photo}
                     onChangePhoto={setPhoto}
                 />
                 <Input
