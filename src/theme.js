@@ -3,12 +3,14 @@ const Colors = {
     black: '#111',
     main: '#778BDD',
     grey_0: '#D5D5D5',
-    grey_1: '#a6a6a6'
+    grey_1: '#a6a6a6',
+    red: '#e84118'
 };
 
 export const theme = {
     background: Colors.white,
     text: Colors.black,
+    errorText: Colors.red,
 
     // Button
     btnBackground: Colors.main,
