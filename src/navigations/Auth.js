@@ -12,7 +12,12 @@ const Auth = () => {
     // 현재 컨텍스트의 테마 호출
     const theme = useContext(ThemeContext);
     return (
-        <Stack.Navigator>
+        // 네비게이터의 색상 설정
+        <Stack.Navigator
+            screenOptions={{
+                cardStyle: { backgroundColor: theme.background }
+            }}
+        >
             {/* 로그인 화면에선 상단바 노출되지 않게 함 */}
             <Stack.Screen
                 name="Signin"
