@@ -1,10 +1,11 @@
 import styled from "styled-components/native";
 import { Button, Image, Input, ErrorMessage } from "../components";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { signup } from "../firebase";
 import { Alert } from "react-native";
 import { validateEmail, removeWhitespace } from "../utils";
+import { UserContext, ProgressContext } from "../contexts";
 
 // 로그인 페이지를 감싸는 컴포넌트
 const Container = styled.View`
@@ -20,6 +21,10 @@ const DEFAULT_PHOTO = 'https://firebasestorage.googleapis.com/v0/b/rn-chat-1eec3
 
 // 로그인 화면 컴포넌트
 const Signup = ({ navigation }) => {
+    // 회원 정보와 로딩 정보 컨텍스트를 제어하는 함수 호출
+    const { setUser } = useContext(UserContext);
+    const { spinner } = useContext(ProgressContext);
+
     // 입력을 저장하는 state
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -56,7 +61,7 @@ const Signup = ({ navigation }) => {
                 error = 'Pleas enter your email';
             } else if (!validateEmail(email)) {
                 error = 'Pleas verify your email';
-            }else if (password.length < 6) {
+            } else if (password.length < 6) {
                 error = 'The password must contain 6 character at least';
             } else if (password !== passwordConfirm) {
                 error = 'Password need to match';
@@ -72,10 +77,16 @@ const Signup = ({ navigation }) => {
     // state 값으로 회원가입 후 프로필 화면으로 이동
     const _handleSignupBtnPress = async () => {
         try {
+            // 로딩 시작
+            spinner.start();
             const user = await signup({ name, email, password, photo });
-            navigation.navigate('Profile', { user });
+            // 회원 정보 컨텍스트에 저장
+            setUser(user);
         } catch (e) {
             Alert.alert('Signup Error', e.message);
+        } finally {
+            // 로딩 종료
+            spinner.stop();
         }
     };
 
