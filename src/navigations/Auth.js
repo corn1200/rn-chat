@@ -44,11 +44,6 @@ const Auth = () => {
                     )
                 }}
             />
-            {/* 프로필로 이동할 수 있는 네비게이션 추가 */}
-            <Stack.Screen
-                name="Profile"
-                component={Profile}
-            />
         </Stack.Navigator>
     );
 };
