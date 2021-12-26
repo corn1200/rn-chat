@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
-import { Button, Image } from "../components";
+import { Button, Image, Input } from "../components";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useContext } from "react";
+import { useContext, useState, useRef } from "react";
 import { ThemeContext } from "styled-components/native";
 
 // 로그인 페이지를 감싸는 컴포넌트
@@ -15,12 +15,6 @@ const Container = styled.View`
     padding-bottom: ${({ insets: { bottom } }) => bottom}px;
 `;
 
-// 텍스트를 보여주는 스타일 컴포넌트
-const StyledText = styled.Text`
-    font-size: 30px;
-    color: #111;
-`;
-
 // 파이어베이스에 저장된 이미지 주소
 const LOGO = 'https://firebasestorage.googleapis.com/v0/b/rn-chat-1eec3.appspot.com/o/icon_new.png?alt=media';
 
@@ -30,14 +24,39 @@ const Signin = ({ navigation }) => {
     const insets = useSafeAreaInsets();
     // 테마를 바로 사용할 수 없기 때문에 context에서 불러옴
     const theme = useContext(ThemeContext);
+    // 이메일 입력과 비밀번호 입력을 저장하는 state
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    // 키보드에서 다음 버튼을 눌렀을 때 이메일에서 비밀번호 입력으로 이동되게 함
+    const refPassword = useRef(null);
+    const _handleSigninBtnPress = () => {
+        console.log('signin');
+    }
     return (
         <Container insets={insets}>
             <Image url={LOGO} />
-            <StyledText>Signin</StyledText>
+            <Input
+                label="Email"
+                placeholder="Email"
+                returnKeyType="next"
+                value={email}
+                onChangeText={setEmail}
+                onSubmitEditing={() => refPassword.current.focus()}
+            />
+            <Input
+                ref={refPassword}
+                label="Password"
+                placeholder="Password"
+                returnKeyType="done"
+                value={password}
+                onChangeText={setPassword}
+                isPassword={true}
+                onSubmitEditing={_handleSigninBtnPress}
+            />
             {/* 클릭 시 네비게이션에 Signup 으로 등록된 화면으로 이동 */}
             <Button
                 title="Sign in"
-                onPress={() => console.log('signin')}
+                onPress={_handleSigninBtnPress}
             />
             {/* 버튼의 스타일을 정의함 */}
             <Button
