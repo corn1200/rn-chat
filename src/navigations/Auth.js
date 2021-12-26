@@ -1,5 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { Signin, Signup } from "../screens";
+import { Signin, Signup, Profile } from "../screens";
 import { MaterialIcons } from '@expo/vector-icons';
 import { useContext } from "react";
 import { ThemeContext } from "styled-components/native";
@@ -26,10 +26,10 @@ const Auth = () => {
                     { headerShown: false }
                 }
             />
-            {/* 상단 페이지 정렬과 색상 회귀 아이콘을 재정의한다 */}
             <Stack.Screen
                 name="Signup"
                 component={Signup}
+                // 상단 페이지 정렬과 색상 회귀 아이콘을 재정의한다
                 options={{
                     headerTitleAlign: 'center',
                     headerBackTitleVisible: false,
@@ -37,12 +37,17 @@ const Auth = () => {
                     headerLeft: ({ onPress, tintColor }) => (
                         <MaterialIcons
                             name="keyboard-arrow-left"
-                            size={38}px
+                            size={38} px
                             color={tintColor}
                             onPress={onPress}
                         />
                     )
                 }}
+            />
+            {/* 프로필로 이동할 수 있는 네비게이션 추가 */}
+            <Stack.Screen
+                name="Profile"
+                component={Profile}
             />
         </Stack.Navigator>
     );

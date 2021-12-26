@@ -28,15 +28,15 @@ const photoIcon = (theme) => {
 };
 
 // 마테리얼 아이콘을 출력하는 아이콘 컴포넌트
-const ButtonIcon = styled(MaterialIcons).attrs(({ theme }) => 
+const ButtonIcon = styled(MaterialIcons).attrs(({ theme }) =>
     photoIcon(theme)
 )``;
 
 // 클릭 시 사진 선택을 하는 아이콘 컴포넌트
-const PhotoButton = ({onPress}) => {
+const PhotoButton = ({ onPress }) => {
     return (
         <ButtonContainer onPress={onPress}>
-            <ButtonIcon/>
+            <ButtonIcon />
         </ButtonContainer>
     );
 };
@@ -60,12 +60,12 @@ const Image = ({ url, showButton, onChangePhoto }) => {
     useEffect(() => {
         (async () => {
             // 웹이 환경이 아닐 경우 저장소 권한을 얻어야 한다
-            if(Platform.OS !== 'web') {
-                const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (Platform.OS !== 'web') {
+                const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
                 // 권한 요청 거부 시 출력
-                if(status !== 'granted') {
+                if (status !== 'granted') {
                     Alert.alert(
-                        'Photo Permission', 
+                        'Photo Permission',
                         'Please turn on the camera permission.'
                     );
                 }
@@ -78,13 +78,13 @@ const Image = ({ url, showButton, onChangePhoto }) => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [1,1],
+            aspect: [1, 1],
             quality: 1
         });
 
         console.log(result);
 
-        if(!result.cancelled) {
+        if (!result.cancelled) {
             onChangePhoto(result.uri);
         }
     }
@@ -93,7 +93,7 @@ const Image = ({ url, showButton, onChangePhoto }) => {
         <Container>
             <ProfileImage source={{ uri: url }} />
             {/* 필요에 따라 보여주고 클릭 시 저장공간에서 이미지 선택 */}
-            {showButton && <PhotoButton onPress={_handlePhotoBtnPress}/>}
+            {showButton && <PhotoButton onPress={_handlePhotoBtnPress} />}
         </Container>
     );
 };
