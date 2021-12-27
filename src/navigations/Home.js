@@ -22,12 +22,20 @@ const Home = ({ navigation, route }) => {
     useEffect(() => {
         const screenName = getFocusedRouteNameFromRoute(route) || 'List';
         navigation.setOptions({
-            headerTitle: screenName
+            headerTitle: screenName,
+            headerRight: () => screenName === 'List' && (
+                <MaterialIcons 
+                    name="add" 
+                    size={26} 
+                    style={{margin: 10}}
+                    onPress={() => navigation.navigate('ChannelCreation')}
+                />
+            )
         });
     });
 
     return (
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
             <Tab.Screen
                 name="List"
                 component={ChannelList}

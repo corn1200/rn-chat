@@ -1,5 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    updateProfile,
+    signOut
+} from 'firebase/auth';
+import { getFirestore, collection, doc, setDoc } from 'firebase/firestore';
 import { getStorage, uploadBytes, getDownloadURL, ref } from 'firebase/storage';
 import config from '../firebase.json';
 
@@ -44,13 +51,13 @@ export const signup = async ({ name, email, password, photo }) => {
 };
 
 export const getCurrentUser = () => {
-    const {uid, displayName, email, photoURL} = auth.currentUser;
-    return {uid, name: displayName, email, photo: photoURL};
+    const { uid, displayName, email, photoURL } = auth.currentUser;
+    return { uid, name: displayName, email, photo: photoURL };
 };
 
 export const updateUserInfo = async photo => {
     const photoURL = await uploadImage(photo);
-    await updateProfile(auth.currentUser, {photoURL});
+    await updateProfile(auth.currentUser, { photoURL });
     return photoURL;
 };
 
@@ -58,3 +65,19 @@ export const signout = async () => {
     await signOut();
     return {};
 };
+
+const DB = getFirestore(app);
+
+export const createChannel = async ({ title, desc }) => {
+    const channelCollection = collection(DB, 'channels');
+    const newChannelRef = doc(channelCollection);
+    const id = newChannelRef.id;
+    const newChannel = {
+        id,
+        title,
+        description: desc,
+        createdAt: Date.now()
+    };
+    await setDoc(newChannelRef, newChannel);
+    return id;
+}
