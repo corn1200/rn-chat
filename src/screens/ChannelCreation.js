@@ -71,7 +71,7 @@ const ChannelCreation = ({ navigation }) => {
                     value={desc}
                     onChangeText={_handleDescChange}
                     onSubmitEditing={_handleCreateBtnPress}
-                    onBlur={() => setTitle(desc.trim())}
+                    onBlur={() => setDesc(desc.trim())}
                     placeholder='Description'
                     returnKeyType='done'
                     maxLength={40}
