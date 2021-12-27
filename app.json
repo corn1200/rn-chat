@@ -2,7 +2,7 @@
   "expo": {
     "name": "ReactNativeChatApp",
     "slug": "rn-chat",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon/icon_new.png",
     "splash": {
@@ -26,7 +26,7 @@
     },
     "android": {
       "package": "com.example.corn120033",
-      "versionCode": 1,
+      "versionCode": 2,
       "permissions": ["READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
