@@ -4,17 +4,16 @@ import Navigation from '../navigations';
 import { theme } from '../theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { FlatList } from 'react-native';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { app } from '../firebase';
+import { getFirestore, collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import moment from 'moment';
 
-const channels = [];
-for (let i = 0; i < 1000; i++) {
-    channels.push({
-        id: i,
-        title: `title: ${i}`,
-        description: `desc: ${i}`,
-        createdAt: i
-    });
-};
+const getDateOrTime = ts => {
+    const now = moment().startOf('day');
+    const target = moment(ts).startOf('day');
+    return moment(ts).format(now.diff(target, 'day') > 0 ? 'MM/DD' : 'HH:mm');
+}
 
 const ItemContainer = styled.TouchableOpacity`
     flex-direction: row;
@@ -32,7 +31,7 @@ const ItemTextContainer = styled.View`
 const ItemTitle = styled.Text`
     font-size: 20px;
     font-weight: 600;
-    color: ${({theme}) => theme.text};
+    color: ${({ theme }) => theme.text};
 `;
 
 const ItemDesc = styled.Text`
@@ -59,14 +58,14 @@ const ItemIcon = styled(MaterialIcons).attrs(({ theme }) => itemIconAttrs(theme)
 const Item = React.memo(
     ({ item: { id, title, description, createdAt }, onPress }) => {
         console.log(id);
-        
+
         return (
-            <ItemContainer>
+            <ItemContainer onPress={() => onPress({ id, title })}>
                 <ItemTextContainer>
                     <ItemTitle>{title}</ItemTitle>
                     <ItemDesc>{description}</ItemDesc>
                 </ItemTextContainer>
-                <ItemTime>{createdAt}</ItemTime>
+                <ItemTime>{getDateOrTime(createdAt)}</ItemTime>
                 <ItemIcon />
             </ItemContainer>
         );
@@ -78,17 +77,34 @@ const Container = styled.View`
     background-color: ${({ theme }) => theme.background};
 `;
 
-const StyledText = styled.Text`
-    font-size: 30px;
-`;
-
 const ChannelList = ({ navigation }) => {
+    const [channels, setChannels] = useState([]);
+    const DB = getFirestore(app);
+
+    useEffect(() => {
+        const collectionQuery = query(
+            collection(DB, 'channels'),
+            orderBy('createdAt', 'desc')
+        );
+        const unsubscribe = onSnapshot(collectionQuery, snapshot => {
+            const list = [];
+            snapshot.forEach(doc => {
+                list.push(doc.data());
+            });
+            setChannels(list);
+        });
+        return () => unsubscribe();
+    }, []);
+
     return (
         <Container>
             <FlatList
                 data={channels}
                 renderItem={({ item }) => (
-                    <Item item={item} />
+                    <Item
+                        item={item}
+                        onPress={params => navigation.navigate('Channel', params)}
+                    />
                 )}
                 keyExtractor={item => item['id'].toString()}
             />

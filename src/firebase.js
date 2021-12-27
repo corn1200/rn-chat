@@ -66,7 +66,7 @@ export const signout = async () => {
     return {};
 };
 
-const DB = getFirestore(app);
+export const DB = getFirestore(app);
 
 export const createChannel = async ({ title, desc }) => {
     const channelCollection = collection(DB, 'channels');
