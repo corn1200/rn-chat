@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
 import { getStorage, uploadBytes, getDownloadURL, ref } from 'firebase/storage';
 import config from '../firebase.json';
 
@@ -41,4 +41,20 @@ export const signup = async ({ name, email, password, photo }) => {
     const photoURL = await uploadImage(photo);
     await updateProfile(auth.currentUser, { displayName: name, photoURL });
     return user;
+};
+
+export const getCurrentUser = () => {
+    const {uid, displayName, email, photoURL} = auth.currentUser;
+    return {uid, name: displayName, email, photo: photoURL};
+};
+
+export const updateUserInfo = async photo => {
+    const photoURL = await uploadImage(photo);
+    await updateProfile(auth.currentUser, {photoURL});
+    return photoURL;
+};
+
+export const signout = async () => {
+    await signOut();
+    return {};
 };

@@ -14,7 +14,7 @@ const Navigation = () => {
     return (
         <NavigationContainer>
             {/* 현재 로그인 상태로 네비게이션 분기 */}
-            {!user.uid ? <Main /> : <Auth />}
+            {user.uid ? <Main /> : <Auth />}
             {/* 로딩이 필요한 구간일 시 스피너 동작 */}
             {inProgress && <Spinner />}
         </NavigationContainer>

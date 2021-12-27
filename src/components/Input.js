@@ -22,7 +22,8 @@ const Label = styled.Text`
 const StyledInput = styled.TextInput.attrs(({ theme }) => {
     theme.inputPlaceholder
 })`
-    background-color: ${({ theme }) => theme.inputBackground};
+    background-color: ${({ theme, editable }) => 
+        editable ? theme.inputBackground : theme.inputDisabled};
     color: ${({ theme }) => theme.text};
     padding: 20px 10px;
     font-size: 16px;
@@ -45,7 +46,8 @@ const Input = forwardRef(
             placeholder,
             returnKeyType,
             maxLength,
-            isPassword
+            isPassword,
+            disabled
         },
         ref
     ) => {
@@ -73,6 +75,7 @@ const Input = forwardRef(
                     isFocused={isFocused}
                     onFocus={() => setIsFocused(true)}
                     secureTextEntry={isPassword}
+                    editable={!disabled}
                 />
             </Container>
         );
@@ -94,7 +97,8 @@ Input.propTypes = {
     placeholder: PropTypes.string,
     returnKeyType: PropTypes.oneOf(['done', 'next']),
     maxLength: PropTypes.number,
-    isPassword: PropTypes.bool
+    isPassword: PropTypes.bool,
+    disabled: PropTypes.bool
 };
 
 export default Input;
