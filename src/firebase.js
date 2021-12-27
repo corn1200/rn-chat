@@ -11,7 +11,7 @@ import { getStorage, uploadBytes, getDownloadURL, ref } from 'firebase/storage';
 import config from '../firebase.json';
 
 // 파이어베이스 설정을 불러온다
-const app = initializeApp(config);
+export const app = initializeApp(config);
 const auth = getAuth(app);
 
 // 이메일과 비밀번호로 로그인하고 유저 오브젝트 반환
@@ -80,4 +80,9 @@ export const createChannel = async ({ title, desc }) => {
     };
     await setDoc(newChannelRef, newChannel);
     return id;
-}
+};
+
+export const createMessage = async ({ channelId, message }) => {
+    const docRef = doc(DB, `channels/${channelId}/messages`, message._id);
+    await setDoc(docRef, { ...message, createdAt: Date.now() });
+};
